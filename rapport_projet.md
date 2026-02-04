@@ -1,116 +1,51 @@
-# 🚗 Rapport Technique : Smart Traffic Prediction (Casablanca)
+# Titre du Projet : Smart Traffic Prediction (Casablanca)
 
-## 📋 Présentation du Projet
-Ce projet vise à prédire le niveau de congestion routière à Casablanca en utilisant l'Intelligence Artificielle sur le Cloud Azure. L'objectif est de fournir une estimation en temps réel (Fluide, Modéré, Bloqué) basée sur la zone, l'heure et le jour de la semaine.
+## 1. Introduction
+Ce projet vise à résoudre le problème de la congestion routière à Casablanca en utilisant l'Intelligence Artificielle et le Cloud Computing. L'objectif est de fournir une estimation en temps réel de l'état du trafic (Fluide, Modéré, Bloqué) basée sur des données historiques (Zone, Heure, Jour).
 
----
+## 2. Architecture Technique (Azure Cloud)
+La solution repose sur une architecture PaaS (Platform as a Service) pour optimiser les coûts et la maintenance :
 
-## 🏗️ Architecture Cloud (Azure)
+### Stockage de Données :
+*   **Azure Blob Storage :** Utilisé pour stocker les fichiers bruts (`dataset.csv`) servant à l'entraînement du modèle.
+*   **Azure SQL Database :** (Optionnel) Pour stocker l'historique des prédictions et assurer la gouvernance des données.
 
-La solution repose sur une architecture **PaaS (Platform as a Service)** optimisée pour le coût et la performance :
+### Intelligence Artificielle :
+*   **Azure Machine Learning (Designer) :** Création d'un pipeline de "Régression Linéaire". Le pipeline gère l'ingestion des données, le nettoyage, l'entraînement et l'évaluation du modèle.
 
-1.  **Azure SQL Database :** Stockage structuré des données historiques (Scalabilité & Sécurité).
-2.  **Azure Blob Storage :** Stockage des fichiers bruts (`csv`) pour l'entraînement du modèle.
-3.  **Azure Machine Learning :** Création, entraînement et déploiement du modèle d'IA.
-4.  **Azure Container Instance (ACI) :** Hébergement de l'API du modèle (Endpoint).
-5.  **Client Application (FastAPI) :** Interface utilisateur locale communiquant avec le Cloud.
+### Déploiement & API :
+*   **Azure Container Instance (ACI) :** Le modèle entraîné est déployé sous forme de Web Service (API REST) sécurisé par une clé d'authentification.
 
----
+### Interface Utilisateur :
+*   **Application Client (Python/FastAPI) :** Une interface locale développée en Python qui communique avec l'API Azure pour afficher les résultats en temps réel.
 
-## 🛠️ Étapes de Réalisation (Détails Techniques)
+## 3. Méthodologie de Réalisation
 
-### 1️⃣ Base de Données (Azure SQL)
-* **Service :** SQL Database (Tier Basic).
-* **Configuration :** Serveur sécurisé avec authentification SQL.
-* **Schéma :** Création de la table `traffic_data` pour stocker l'historique (Zone, Heure, Jour, Niveau de traffic).
-* **Rôle :** Assure la gouvernance des données et permet une évolutivité future.
+*   **Préparation des Données :** Collecte et structuration des données (Zone, Heure, Jour, Niveau de Traffic) dans un fichier CSV.
+*   **Entraînement (Training) :** Utilisation d'Azure ML Designer pour entraîner un modèle de régression. Nous avons divisé les données (70% Train / 30% Test) pour valider la précision.
+*   **Déploiement (Deployment) :** Mise en production du modèle via un "Real-time Inference Endpoint".
+*   **Développement App :** Création d'un script Python intégrant une logique de secours (Fallback) pour garantir le fonctionnement de la démo même en cas de latence réseau.
 
-### 2️⃣ Stockage des Données (Blob Storage)
-* **Service :** Storage Account (LRS - Locally Redundant Storage pour réduire les coûts).
-* **Container :** `datasets`.
-* **Fichier :** Upload du fichier `traffic_data.csv` contenant les données d'entraînement.
+## 4. Optimisation des Coûts (Cost Management)
+Le projet respecte une contrainte budgétaire stricte (< 20$/mois) grâce à :
+*   L'utilisation de l'Auto-shutdown sur les clusters de calcul (extinction après 15 min d'inactivité).
+*   Le choix de niveaux de service basiques (Basic Tier pour SQL, LRS pour Storage).
+*   Le déploiement sur Azure Container Instance qui facture à la seconde d'utilisation.
 
-### 3️⃣ Intelligence Artificielle (Azure Machine Learning)
-Nous avons utilisé l'approche **"No-Code / Low-Code"** avec le Designer Azure ML :
+## 5. Procédure de Réentraînement (Mise à jour du Modèle)
+Afin de maintenir la précision du modèle avec de nouvelles données (comme le dataset enrichi `traffic_data.csv` contenant Maarif, Sidi Maarouf, etc.), une procédure de réentraînement simple a été mise en place :
 
-1.  **Ingestion :** Importation du dataset depuis le Blob Storage.
-2.  **Split Data :** Division des données (70% pour l'entraînement, 30% pour le test).
-3.  **Algorithme :** Utilisation de la **Régression Linéaire** (Linear Regression) car nous prédisons une valeur continue (0 à 1).
-4.  **Entraînement :** Le module "Train Model" apprend les corrélations entre (Heure/Jour/Zone) et le Traffic.
-5.  **Évaluation :** Le module "Score Model" compare les prédictions avec la réalité.
+1.  **Mise à jour des Données (Upload) :**
+    *   Accéder à l'Azure Portal -> Storage Account -> Containers -> `datasets`.
+    *   Téléverser le nouveau fichier `traffic_data.csv` en sélectionnant l'option "Overwrite" pour remplacer l'ancien fichier.
 
-### 4️⃣ Déploiement (Inference Pipeline)
-Une fois le modèle entraîné, nous l'avons déployé pour qu'il soit accessible via internet :
-* **Méthode :** Real-time Inference Pipeline.
-* **Compute :** Azure Container Instance (ACI) - Solution légère et rapide.
-* **Sécurité :** Authentification par Clé API (Key-based).
+2.  **Relance de l'Entraînement (Retrain) :**
+    *   Dans Azure ML Studio (Designer), ouvrir le Pipeline existant.
+    *   Cliquer sur **"Submit"** en réutilisant l'Expérience existante (`traffic-exp-1`).
+    *   Azure va automatiquement ingérer les nouvelles données et ajuster le modèle (ex: apprendre que "Ain Diab" est saturé le vendredi soir).
 
----
+3.  **Mise à Jour du Service (Update Endpoint) :**
+    *   Une fois le Run terminé avec succès, déployer la nouvelle version sur l'Endpoint existant (`traffic-app`) pour que l'API utilise immédiatement le nouveau "cerveau".
 
-## 💻 Développement de l'Application (FastAPI)
-
-Pour la démonstration, nous avons développé une application Python locale (`main.py`) utilisant **FastAPI**.
-
-### Fonctionnalités Clés :
-1.  **Interface Web :** HTML/CSS/JS moderne pour saisir la Zone, l'Heure et le Jour.
-2.  **API Gateway :** Le script Python reçoit la demande du navigateur et la transmet à Azure.
-3.  **Résilience (Robust Fallback) :**
-    * L'application tente d'abord de contacter l'IA sur Azure.
-    * *Sécurité :* Si la connexion Azure échoue (timeout, erreur serveur), l'application bascule automatiquement sur une **logique locale de secours**.
-    * Cela garantit que la démonstration **ne plante jamais** devant le public (Effet Démo garanti ✅).
-
-### Extrait de la logique (Python) :
-```python
-# Tentative de connexion Azure
-try:
-    response = urllib.request.urlopen(req)
-    congestion_level = float(json.loads(response.read())[0])
-except:
-    # Mode Secours (Fallback) si Azure ne répond pas
-    congestion_level = simulation_locale(hour)
-```
-
----
-
-## ⚠️ Défis Techniques et Solutions
-
-Durant la réalisation, nous avons surmonté plusieurs défis techniques :
-
-1.  **Erreur de Stockage Azure ML :** Le Workspace initial a perdu son lien avec le compte de stockage.
-    *   *Solution :* Recreation propre du Workspace (`traffic-ml-workspace-v2`) pour garantir un environnement stable.
-
-2.  **Déploiement du Modèle :** L'option de déploiement automatique n'était pas visible dans l'interface Designer.
-    *   *Solution :* Passage à un déploiement manuel via l'enregistrement du modèle ("Register Model") puis création de l'Endpoint en temps réel.
-
-3.  **Sensibilité à la Casse (Case Sensitivity) :** Le modèle rejetait "maarif" car il avait appris "Maarif".
-    *   *Solution :* Normalisation automatique des entrées dans le code Python (`.title()`).
-
-4.  **Stabilité de la Démo :** Risque de latence ou d'erreur 500 lors de l'appel API Azure.
-    *   *Solution :* Implémentation du "Plan de Secours" (Fallback) qui assure une réponse instantanée même en cas de panne Cloud.
-
----
-
-## 💰 Estimation des Coûts (Cost Optimization)
-
-La solution a été conçue pour rester sous la barre des **20$ / mois** :
-
-* **Azure SQL (Basic) :** ~5$ / mois.
-* **Blob Storage (LRS) :** < 1$ / mois (quelques Mo).
-* **Azure ML Compute :** Configuration avec **Auto-shutdown (15 min)** pour ne payer que l'utilisation réelle.
-* **Container Instance :** Facturation à la seconde (utilisé uniquement lors des requêtes).
-
----
-
-## 🚀 Comment lancer le projet
-
-1. Ouvrir le terminal dans le dossier du projet.
-2. Lancer le serveur (ou utiliser `run_app.bat`) :
-```bash
-python -m uvicorn main:app --reload
-```
-
-3. Ouvrir le navigateur sur : `http://127.0.0.1:8000`
-
----
-
-**© 2026 - Projet Cloud Computing - Smart Traffic**
+## 6. Conclusion
+Ce projet démontre la puissance du Cloud Azure pour déployer rapidement des solutions d'IA évolutives et robustes, passant de la donnée brute à une application utilisateur fonctionnelle en quelques heures.

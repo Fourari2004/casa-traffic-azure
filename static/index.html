@@ -28,7 +28,9 @@
                 <form id="predictionForm">
                     <div class="input-group">
                         <label for="zone"><i class="fas fa-map-marker-alt"></i> Zone / Quartier</label>
-                        <input type="text" id="zone" name="zone" placeholder="Ex: Maarif, Ain Diab..." required>
+                        <select id="zone" name="zone" required>
+                            <option value="" disabled selected>Chargement des zones...</option>
+                        </select>
                     </div>
 
                     <div class="input-group">

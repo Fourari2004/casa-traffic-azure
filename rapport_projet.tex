@@ -1,0 +1,181 @@
+\documentclass[a4paper,12pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{fancyhdr}
+
+% Configuration de la mise en page
+\geometry{hmargin=2.5cm,vmargin=2.5cm}
+
+% Configuration des liens hypertextes
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+% Configuration pour le code source
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+
+% En-tête et pied de page
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Smart Traffic Prediction (Casablanca)}
+\lhead{Rapport de Projet}
+\cfoot{\thepage}
+
+\begin{document}
+
+% Page de garde
+\begin{titlepage}
+    \begin{center}
+        \vspace*{1cm}
+        
+        \Huge
+        \textbf{Rapport de Projet}
+        
+        \vspace{0.5cm}
+        \LARGE
+        Smart Traffic Prediction (Casablanca)
+        
+        \vspace{1.5cm}
+        
+        \textbf{Cloud Computing & Intelligence Artificielle}
+        
+        \vspace{2cm}
+        
+        \Large
+        \textbf{Réalisé par :} \\
+        Fourari2004
+        
+        \vspace{1cm}
+        
+        \textbf{Date :} \\
+        \today
+        
+        \vfill
+        
+        \vspace{0.8cm}
+        
+        \includegraphics[width=0.4\textwidth]{example-image-a} % Remplacer par un logo si disponible
+        
+        \Large
+        Casablanca, Maroc
+        
+    \end{center}
+\end{titlepage}
+
+% Table des matières
+\tableofcontents
+\newpage
+
+\chapter{Introduction}
+Ce projet vise à résoudre le problème de la congestion routière à Casablanca en utilisant l'\textbf{Intelligence Artificielle} et le \textbf{Cloud Computing}. L'objectif principal est de fournir une estimation en temps réel de l'état du trafic (Fluide, Modéré, Bloqué) basée sur des données historiques telles que la zone géographique, l'heure de la journée et le jour de la semaine.
+
+\chapter{Architecture Technique (Azure Cloud)}
+La solution repose sur une architecture \textbf{PaaS (Platform as a Service)} afin d'optimiser les coûts opérationnels et la maintenance.
+
+\section{Stockage de Données}
+\begin{itemize}
+    \item \textbf{Azure Blob Storage :} Ce service est utilisé pour stocker les fichiers bruts (notamment \texttt{dataset.csv}) qui servent à l'entraînement du modèle d'IA.
+    \item \textbf{Azure SQL Database (Optionnel) :} Utilisé pour stocker l'historique des prédictions et assurer la gouvernance et la sécurité des données structurées.
+\end{itemize}
+
+\section{Intelligence Artificielle}
+\begin{itemize}
+    \item \textbf{Azure Machine Learning (Designer) :} Nous avons utilisé le concepteur visuel pour créer un pipeline de \textbf{Régression Linéaire}. Ce pipeline gère l'ensemble du flux : ingestion des données, nettoyage, entraînement du modèle et évaluation des performances.
+\end{itemize}
+
+\section{Déploiement \& API}
+\begin{itemize}
+    \item \textbf{Azure Container Instance (ACI) :} Le modèle, une fois entraîné, est déployé sous forme de Web Service (API REST). Ce service est sécurisé par une clé d'authentification pour contrôler l'accès.
+\end{itemize}
+
+\section{Interface Utilisateur}
+\begin{itemize}
+    \item \textbf{Application Client (Python/FastAPI) :} Une interface locale moderne, développée en Python avec le framework FastAPI, communique avec l'API Azure pour récupérer les prédictions et afficher les résultats en temps réel à l'utilisateur.
+\end{itemize}
+
+\chapter{Méthodologie de Réalisation}
+
+\section{Préparation des Données}
+La première étape a consisté en la collecte et la structuration des données de trafic. Les données (Zone, Heure, Jour, Niveau de Traffic) ont été consolidées dans un fichier CSV.
+
+\section{Entraînement (Training)}
+Nous avons utilisé \textbf{Azure ML Designer} pour entraîner un modèle de régression. Pour valider la précision du modèle, nous avons divisé les données en deux ensembles :
+\begin{itemize}
+    \item 70\% des données pour l'entraînement.
+    \item 30\% des données pour le test et la validation.
+\end{itemize}
+
+\section{Déploiement (Deployment)}
+La mise en production du modèle s'est faite via un \textbf{"Real-time Inference Endpoint"}, permettant des appels API synchrones pour des prédictions immédiates.
+
+\section{Développement App}
+Nous avons créé un script Python intégrant une logique de \textbf{secours (Fallback)}. Cette fonctionnalité est cruciale pour une démonstration : elle garantit que l'application continue de fonctionner et de fournir des estimations (basées sur une simulation locale) même en cas de latence réseau ou d'indisponibilité temporaire du service Cloud Azure.
+
+\chapter{Optimisation des Coûts (Cost Management)}
+Le projet a été conçu pour respecter une contrainte budgétaire stricte (inférieure à 20\$ par mois). Plusieurs stratégies ont été mises en œuvre :
+
+\begin{itemize}
+    \item \textbf{Auto-shutdown :} Configuration de l'extinction automatique des clusters de calcul après 15 minutes d'inactivité.
+    \item \textbf{Niveaux de service (Tiers) :} Choix des niveaux basiques (Basic Tier pour SQL, LRS - Locally Redundant Storage pour le stockage).
+    \item \textbf{Azure Container Instance :} Utilisation de ce service qui facture à la seconde d'utilisation, idéal pour des besoins ponctuels ou de démonstration.
+\end{itemize}
+
+\chapter{Procédure de Réentraînement (Mise à jour du Modèle)}
+Afin de maintenir la précision du modèle avec de nouvelles données (comme le dataset enrichi \texttt{traffic\_data.csv} contenant Maarif, Sidi Maarouf, etc.), une procédure de réentraînement simple a été mise en place :
+
+\begin{enumerate}
+    \item \textbf{Mise à jour des Données (Upload) :}
+    \begin{itemize}
+        \item Accéder à l'Azure Portal $\rightarrow$ Storage Account $\rightarrow$ Containers $\rightarrow$ \texttt{datasets}.
+        \item Téléverser le nouveau fichier \texttt{traffic\_data.csv} en sélectionnant l'option "Overwrite" pour remplacer l'ancien fichier.
+    \end{itemize}
+
+    \item \textbf{Relance de l'Entraînement (Retrain) :}
+    \begin{itemize}
+        \item Dans Azure ML Studio (Designer), ouvrir le Pipeline existant.
+        \item Cliquer sur \textbf{"Submit"} en réutilisant l'Expérience existante (\texttt{traffic-exp-1}).
+        \item Azure va automatiquement ingérer les nouvelles données et ajuster le modèle (ex: apprendre que "Ain Diab" est saturé le vendredi soir).
+    \end{itemize}
+
+    \item \textbf{Mise à Jour du Service (Update Endpoint) :}
+    \begin{itemize}
+        \item Une fois le Run terminé avec succès, déployer la nouvelle version sur l'Endpoint existant (\texttt{traffic-app}) pour que l'API utilise immédiatement le nouveau "cerveau".
+    \end{itemize}
+\end{enumerate}
+
+\chapter{Conclusion}
+Ce projet démontre la puissance et la flexibilité du Cloud Azure pour déployer rapidement des solutions d'Intelligence Artificielle évolutives et robustes. Il illustre comment, en quelques heures, il est possible de passer de la donnée brute à une application utilisateur fonctionnelle.
+
+\end{document}

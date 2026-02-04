@@ -1,3 +1,25 @@
+document.addEventListener('DOMContentLoaded', async () => {
+    const zoneSelect = document.getElementById('zone');
+    try {
+        const response = await fetch('/zones');
+        if (response.ok) {
+            const data = await response.json();
+            zoneSelect.innerHTML = '<option value="" disabled selected>Choisir une zone</option>';
+            data.zones.forEach(zone => {
+                const option = document.createElement('option');
+                option.value = zone;
+                option.textContent = zone;
+                zoneSelect.appendChild(option);
+            });
+        } else {
+            zoneSelect.innerHTML = '<option value="" disabled selected>Erreur de chargement</option>';
+        }
+    } catch (error) {
+        console.error('Erreur chargement zones:', error);
+        zoneSelect.innerHTML = '<option value="" disabled selected>Erreur de chargement</option>';
+    }
+});
+
 document.getElementById('predictionForm').addEventListener('submit', async function (e) {
     e.preventDefault();
 

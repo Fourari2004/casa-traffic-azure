@@ -15,8 +15,8 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 # ⚙️ Configuration de la connexion Azure
 # Remplacez les clés ci-dessous par les vôtres
 # ==========================================
-url = "https://traffic-ml-workspace-v2-twvwz.norwayeast.inference.ml.azure.com/score"  # Point de terminaison (Endpoint)
-api_key = "G4KvLxZfhCBTIKPjpB9k2XxinGY0UZ9vTX1Mv6HjdfLeFTXtEZpgJQQJ99CBAAAAAAAAAAAAINFRAZML4BES"   # Clé d'API (Primary Key)
+url = "https://traffic-ml-workspace-v2-msdxy.norwayeast.inference.ml.azure.com/score"  # Point de terminaison (Endpoint)
+api_key = "4YFy2DJTj2N1Wpu0sdJqpfpopJzcINbmdqTIxcevpis5xD8yCoa2JQQJ99CBAAAAAAAAAAAAINFRAZML3kO7"   # Clé d'API (Primary Key)
 # ==========================================
 
 def allowSelfSignedHttps(allowed):
@@ -29,6 +29,23 @@ allowSelfSignedHttps(True)
 @app.get("/")
 def home():
     return FileResponse('static/index.html')
+
+def get_unique_zones():
+    """Lit le fichier CSV et retourne la liste des zones uniques triées."""
+    zones = set()
+    csv_path = "traffic_data.csv"
+    if os.path.exists(csv_path):
+        with open(csv_path, "r", encoding="utf-8") as f:
+            next(f)  # Skip header
+            for line in f:
+                parts = line.strip().split(",")
+                if len(parts) >= 1:
+                    zones.add(parts[0].strip())
+    return sorted(list(zones))
+
+@app.get("/zones")
+def get_zones():
+    return {"zones": get_unique_zones()}
 
 @app.get("/health")
 def health():
