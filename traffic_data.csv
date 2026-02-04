@@ -1,0 +1,14 @@
+zone,hour,day,traffic_level
+Maarif,8,Monday,0.9
+Maarif,9,Monday,0.8
+Maarif,10,Monday,0.6
+Maarif,18,Monday,0.95
+Maarif,20,Monday,0.4
+Sidi Maarouf,8,Monday,0.85
+Sidi Maarouf,10,Monday,0.5
+Ain Diab,18,Friday,0.9
+Ain Diab,22,Friday,0.8
+Derb Sultan,9,Tuesday,0.75
+Derb Sultan,14,Tuesday,0.3
+Hay Mohammadi,8,Wednesday,0.8
+Hay Mohammadi,12,Wednesday,0.5

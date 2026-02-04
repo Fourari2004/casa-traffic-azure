@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prédiction Trafic Casablanca</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <div class="background-animation"></div>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-car-side"></i>
+                <h1>CasaTrafic</h1>
+            </div>
+            <p>Prédiction de trafic à Casablanca propulsée par l'IA</p>
+        </header>
+
+        <main>
+            <div class="card glass">
+                <form id="predictionForm">
+                    <div class="input-group">
+                        <label for="zone"><i class="fas fa-map-marker-alt"></i> Zone / Quartier</label>
+                        <input type="text" id="zone" name="zone" placeholder="Ex: Maarif, Ain Diab..." required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="hour"><i class="far fa-clock"></i> Heure (0-23)</label>
+                        <input type="number" id="hour" name="hour" min="0" max="23" placeholder="14" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="day"><i class="far fa-calendar-alt"></i> Jour</label>
+                        <select id="day" name="day" required>
+                            <option value="" disabled selected>Choisir un jour</option>
+                            <option value="Monday">Lundi</option>
+                            <option value="Tuesday">Mardi</option>
+                            <option value="Wednesday">Mercredi</option>
+                            <option value="Thursday">Jeudi</option>
+                            <option value="Friday">Vendredi</option>
+                            <option value="Saturday">Samedi</option>
+                            <option value="Sunday">Dimanche</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" id="submitBtn">
+                        <span>Prédire l'encombrement</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </form>
+            </div>
+
+            <div id="resultCard" class="card glass result-card hidden">
+                <div class="result-header">
+                    <h2>Résultat</h2>
+                    <span id="closeResult"><i class="fas fa-times"></i></span>
+                </div>
+                <div class="result-content">
+                    <div class="status-icon" id="statusIcon">
+                        <!-- Icon injected by JS -->
+                    </div>
+                    <div class="result-details">
+                        <h3 id="statusText">Chargement...</h3>
+                        <p id="congestionLevel">...</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 Casablanca Traffic AI</p>
+        </footer>
+    </div>
+    <script src="/static/script.js"></script>
+</body>
+
+</html>
