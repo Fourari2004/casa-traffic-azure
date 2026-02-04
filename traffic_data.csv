@@ -1,14 +1,131 @@
 zone,hour,day,traffic_level
 Maarif,8,Monday,0.9
-Maarif,9,Monday,0.8
+Maarif,9,Monday,0.85
 Maarif,10,Monday,0.6
+Maarif,12,Monday,0.7
+Maarif,14,Monday,0.65
+Maarif,17,Monday,0.9
 Maarif,18,Monday,0.95
-Maarif,20,Monday,0.4
-Sidi Maarouf,8,Monday,0.85
+Maarif,20,Monday,0.5
+Maarif,8,Tuesday,0.88
+Maarif,18,Tuesday,0.92
+Maarif,14,Saturday,0.8
+Maarif,20,Saturday,0.85
+Sidi Maarouf,8,Monday,0.9
+Sidi Maarouf,9,Monday,0.8
 Sidi Maarouf,10,Monday,0.5
+Sidi Maarouf,17,Monday,0.85
+Sidi Maarouf,18,Monday,0.9
+Sidi Maarouf,8,Wednesday,0.88
+Sidi Maarouf,18,Wednesday,0.88
+Ain Diab,9,Monday,0.3
+Ain Diab,14,Monday,0.4
 Ain Diab,18,Friday,0.9
-Ain Diab,22,Friday,0.8
+Ain Diab,21,Friday,0.95
+Ain Diab,23,Friday,0.9
+Ain Diab,14,Saturday,0.7
+Ain Diab,22,Saturday,0.95
+Ain Diab,16,Sunday,0.8
 Derb Sultan,9,Tuesday,0.75
-Derb Sultan,14,Tuesday,0.3
+Derb Sultan,11,Tuesday,0.6
+Derb Sultan,14,Tuesday,0.5
+Derb Sultan,17,Tuesday,0.7
 Hay Mohammadi,8,Wednesday,0.8
 Hay Mohammadi,12,Wednesday,0.5
+Hay Mohammadi,18,Wednesday,0.75
+Centre Ville,8,Thursday,0.85
+Centre Ville,10,Thursday,0.7
+Centre Ville,13,Thursday,0.6
+Centre Ville,18,Thursday,0.9
+Centre Ville,20,Thursday,0.5
+Bernoussi,7,Monday,0.85
+Bernoussi,15,Monday,0.6
+Bernoussi,17,Monday,0.8
+Lissasfa,8,Friday,0.9
+Lissasfa,12,Friday,0.7
+Lissasfa,18,Friday,0.95
+California,8,Monday,0.8
+California,16,Monday,0.75
+Ain Sebaa,8,Tuesday,0.85
+Ain Sebaa,17,Tuesday,0.8
+Oulfa,8,Wednesday,0.75
+Oulfa,18,Wednesday,0.8
+Hay Hassani,9,Thursday,0.7
+Hay Hassani,19,Thursday,0.75
+Bourgone,12,Saturday,0.6
+Bourgone,18,Saturday,0.7
+Belvedere,8,Monday,0.8
+Belvedere,18,Monday,0.85
+2 Mars,8,Tuesday,0.88
+2 Mars,18,Tuesday,0.9
+2 Mars,21,Tuesday,0.4
+Sidi Moumen,8,Wednesday,0.7
+Sidi Moumen,18,Wednesday,0.65
+Sbata,10,Thursday,0.6
+Sbata,17,Thursday,0.7
+Gauthier,13,Friday,0.75
+Gauthier,20,Friday,0.8
+Racine,9,Monday,0.6
+Racine,18,Monday,0.8
+CIL,8,Tuesday,0.7
+CIL,17,Tuesday,0.65
+Lighthouse,16,Sunday,0.85
+Morocco Mall,15,Saturday,0.9
+Morocco Mall,20,Saturday,0.8
+Casa Port,8,Monday,0.85
+Casa Port,18,Monday,0.8
+Casa Voyageurs,7,Sunday,0.6
+Casa Voyageurs,19,Sunday,0.7
+Ziraoui,12,Tuesday,0.65
+Ziraoui,19,Tuesday,0.75
+Route d'El Jadida,8,Wednesday,0.95
+Route d'El Jadida,18,Wednesday,0.95
+Zerktouni,9,Thursday,0.85
+Zerktouni,12,Thursday,0.8
+Zerktouni,18,Thursday,0.9
+Anfa,10,Friday,0.7
+Anfa,17,Friday,0.85
+Ghandi,8,Monday,0.8
+Ghandi,18,Monday,0.85
+Old Medina,14,Saturday,0.7
+Old Medina,18,Saturday,0.6
+Habous,10,Sunday,0.5
+Habous,16,Sunday,0.6
+Panoramique,8,Monday,0.75
+Panoramique,17,Monday,0.7
+Technopark,8,Tuesday,0.9
+Technopark,18,Tuesday,0.9
+Casanearshore,8,Wednesday,0.9
+Casanearshore,18,Wednesday,0.9
+Marina,13,Thursday,0.65
+Marina,19,Thursday,0.7
+Twin Center,9,Friday,0.8
+Twin Center,18,Friday,0.95
+Ain Chock,8,Monday,0.8
+Ain Chock,18,Monday,0.8
+Benjdia,11,Tuesday,0.7
+Benjdia,17,Tuesday,0.75
+Roches Noires,9,Wednesday,0.7
+Roches Noires,16,Wednesday,0.65
+Oasis,8,Thursday,0.75
+Oasis,17,Thursday,0.7
+Palmider,10,Friday,0.5
+Palmider,22,Friday,0.8
+Tamaris,15,Sunday,0.7
+Tamaris,19,Sunday,0.8
+Dar Bouazza,10,Saturday,0.6
+Dar Bouazza,17,Saturday,0.85
+Bouskoura,8,Monday,0.85
+Bouskoura,18,Monday,0.85
+Tit Mellil,7,Tuesday,0.7
+Tit Mellil,16,Tuesday,0.6
+Mediouna,9,Wednesday,0.5
+Mediouna,15,Wednesday,0.4
+Mohammedia,8,Thursday,0.8
+Mohammedia,18,Thursday,0.8
+Zenata,8,Friday,0.75
+Zenata,17,Friday,0.7
+Nouaceur,14,Saturday,0.5
+Nouaceur,20,Saturday,0.4
+Aeroport MN,10,Sunday,0.6
+Aeroport MN,18,Sunday,0.7
